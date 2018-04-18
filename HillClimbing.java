@@ -41,7 +41,8 @@ public class HillClimbing {
 
         // indices saves the indices of the configs with the lowest h values
         ArrayList<Integer> indices = new ArrayList<>();
-        int h_min = cop.h(current);
+        int h_current = cop.h(current);
+        int h_min = h_current;
 
         // Iterates over all neighbors
         for (Configuration n : neighbors) {
@@ -72,6 +73,12 @@ public class HillClimbing {
             int randomIndex = rand.nextInt(indices.size() - 1);
             Configuration next = neighbors.get(randomIndex);
         }
+
+        if (h_min >= h_current) {
+            // TODO: Return current
+        }
+        current = next;
+
         return null;
     }
     
