@@ -45,7 +45,7 @@ public class HillClimbing {
             // "indices" saves the indices of the configs with the lowest h values
             ArrayList<Integer> indices = new ArrayList<>();
             int h_current = cop.h(current);
-            int h_min = 100;
+            int h_min = h_current; //100;
 
             // Iterates over all neighbors
             for (Configuration n : neighbors) {
@@ -65,23 +65,23 @@ public class HillClimbing {
                 // Case 3: h is higher than h_min
                 // ==> Ignore and continue with loop
             }
-            Configuration next;
+            Configuration next = null;
             // Select neighbor with lowest h as next configuration
             if (indices.size() == 1) {
                 next = neighbors.get(indices.get(0));
             }
-            else {
+            else if (indices.size() != 0){
                 // If there are multiple neighbors with the same h value
                 // ==> Choose one at random
                 Random rand = new Random();
-                int randomIndex = rand.nextInt(indices.size() - 1);
+                int randomIndex = rand.nextInt(indices.size());
                 next = neighbors.get(indices.get(randomIndex));
             }
 
             // Return if none of the neighbors' h values is lower than the previous h
             if (h_min >= h_current) {
                 boolean success = false;
-                if (h_min == 0) {
+                if (h_current == 0) {
                     success = true;
                 }
                 return new SearchResult(success, steps);
