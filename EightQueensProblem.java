@@ -52,27 +52,27 @@ public class EightQueensProblem implements CombinatorialOptimizationProblem {
         return result;
     }
     
-    public int h_old(Configuration _conf) {
-        // TODO: Implement the heuristic for the 8 queens problem that
-        // has been presented in the lecture (count the number of pairs
-        // of queens threatening each other)
-
-        EightQueensConfiguration queenconf = (EightQueensConfiguration) _conf;
-        int threatcounter = 0;
-
-        for (int i = 0; i < 7; i++) {
-            for (int j = i + 1; j < 8; j++) {
-                if (queenconf.pos[i] == (queenconf.pos[j] + j) ||
-                        queenconf.pos[i] == (queenconf.pos[j] - j)) {
-                    threatcounter++;
-                }
-                if (queenconf.pos[i] == queenconf.pos[j]) {
-                    threatcounter++;
-                }
-            }
-        }
-        return threatcounter;
-    }
+//    public int h_old(Configuration _conf) {
+//        // TODO: Implement the heuristic for the 8 queens problem that
+//        // has been presented in the lecture (count the number of pairs
+//        // of queens threatening each other)
+//
+//        EightQueensConfiguration queenconf = (EightQueensConfiguration) _conf;
+//        int threatcounter = 0;
+//
+//        for (int i = 0; i < 7; i++) {
+//            for (int j = i + 1; j < 8; j++) {
+//                if (queenconf.pos[i] == (queenconf.pos[j] + j) ||
+//                        queenconf.pos[i] == (queenconf.pos[j] - j)) {
+//                    threatcounter++;
+//                }
+//                if (queenconf.pos[i] == queenconf.pos[j]) {
+//                    threatcounter++;
+//                }
+//            }
+//        }
+//        return threatcounter;
+//    }
 
     public int h(Configuration _conf) {
         // TODO: Implement the heuristic for the 8 queens problem that
