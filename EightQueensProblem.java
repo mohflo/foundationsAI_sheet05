@@ -52,7 +52,7 @@ public class EightQueensProblem implements CombinatorialOptimizationProblem {
         return result;
     }
     
-    public int h(Configuration _conf) {
+    public int h_old(Configuration _conf) {
         // TODO: Implement the heuristic for the 8 queens problem that
         // has been presented in the lecture (count the number of pairs
         // of queens threatening each other)
@@ -72,6 +72,39 @@ public class EightQueensProblem implements CombinatorialOptimizationProblem {
             }
         }
         return threatcounter;
+    }
+
+    public int h(Configuration _conf) {
+        // TODO: Implement the heuristic for the 8 queens problem that
+        // has been presented in the lecture (count the number of pairs
+        // of queens threatening each other)
+        EightQueensConfiguration conf = (EightQueensConfiguration) _conf;
+        int threat = 0;
+        // Going through rows 0:6
+        for (int i = 0; i < 7; i++) {
+            int queen = conf.pos[i];
+            int step = 1;
+            // Going through remaining rows downwards
+            for (int j = i + 1; j < 8; j++) {
+                // Checking for queens in the same column
+                if (queen == conf.pos[j]) {
+                    threat++;
+                }
+                int left = queen - step;
+                int right = queen + step;
+                // Checking for queens in the left lower diagonal
+                if (left >= 0 && left == conf.pos[j]) {
+                    threat++;
+                }
+                // Checking for queens in the right lower diagonal
+                if (right <= 7 && right == conf.pos[j]) {
+                    threat++;
+                }
+                step++;
+            }
+
+        }
+        return threat;
     }
 
     public boolean isSolution(Configuration conf) {
