@@ -56,6 +56,21 @@ public class EightQueensProblem implements CombinatorialOptimizationProblem {
         // TODO: Implement the heuristic for the 8 queens problem that
         // has been presented in the lecture (count the number of pairs
         // of queens threatening each other)
+
+        EightQueensConfiguration queenconf = (EightQueensConfiguration) _conf;
+        int threatcounter = 0;
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = i + 1; j < 8; j++) {
+                if (queenconf.pos[i] == (queenconf.pos[i] + j) ||
+                        queenconf.pos[i] == (queenconf.pos[i] - j)) {
+                    threatcounter++;
+                }
+                if (queenconf.pos[i] == queenconf[j]) {
+                    threatcounter++;
+                }
+            }
+        }
     }
 
     public boolean isSolution(Configuration conf) {
