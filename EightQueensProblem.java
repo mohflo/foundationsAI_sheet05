@@ -71,6 +71,7 @@ public class EightQueensProblem implements CombinatorialOptimizationProblem {
                 }
             }
         }
+        return threatcounter;
     }
 
     public boolean isSolution(Configuration conf) {
