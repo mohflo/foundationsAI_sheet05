@@ -6,31 +6,31 @@ import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class HillClimbing {
+public class HillClimbingWithStagnation {
     protected CombinatorialOptimizationProblem cop;
 
     private class SearchResult {
         boolean success;
         int steps;
-        
+
         public SearchResult(boolean success, int steps) {
             this.success = success;
             this.steps = steps;
         }
     }
 
-    public HillClimbing(String args[]) {
+    public HillClimbingWithStagnation(String args[]) {
         if (args.length == 0) {
             Errors.usageError("no combinatorial optimization problem given");
         }
-        
+
         if (args[0].equals("8queens")) {
             cop = new EightQueensProblem();
         } else {
             Errors.usageError("unknown combinatorial optimization problem: " + args[0]);
         }
     }
-    
+
     protected SearchResult search() {
         // TODO: Implement hill climbing here. Remember that our
         // implementation differs from the one presented in the lecture
@@ -38,8 +38,9 @@ public class HillClimbing {
         // rather than a maximization problem.
         Configuration current = cop.getInitialCandidate();
         int steps = 1;
+        int bound = 100;
 
-        while (true) {
+        while (steps <= bound) {
             ArrayList<Configuration> neighbors = cop.getNeighbors(current);
 
             // "indices" saves the indices of the configs with the lowest h values
@@ -78,8 +79,9 @@ public class HillClimbing {
                 next = neighbors.get(indices.get(randomIndex));
             }
 
-            // Return if none of the neighbors' h values is lower than the previous h
-            if (h_min >= h_current) {
+            // Return if there are no neighbors with *better* h values or if the current config is
+            // a solution itself
+            if (indices.size() == 0 || h_current == 0) {
                 boolean success = false;
                 if (h_current == 0) {
                     success = true;
@@ -89,10 +91,11 @@ public class HillClimbing {
             current = next;
             steps++;
         }
+        return new SearchResult(false, bound);
     }
-    
+
     public static void main(String args[]) {
-        HillClimbing hc = new HillClimbing(args);
+        HillClimbingWithStagnation hc = new HillClimbingWithStagnation(args);
         int succ = 0;
         int steps = 0;
         for (int i = 0; i < 1000; i++) {
