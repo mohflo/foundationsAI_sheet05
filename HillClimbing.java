@@ -1,3 +1,5 @@
+import sun.security.krb5.Config;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 
@@ -33,8 +35,44 @@ public class HillClimbing {
         // TODO: Implement hill climbing here. Remember that our
         // implementation differs from the one presented in the lecture
         // in the fact that we are dealing with a minimization problem
-        // rather than a maximiztion problemm.
-        
+        // rather than a maximization problem.
+        Configuration current = cop.getInitialCandidate();
+        ArrayList<Configuration> neighbors = cop.getNeighbors(current);
+
+        // indices saves the indices of the configs with the lowest h values
+        ArrayList<Integer> indices = new ArrayList<>();
+        int h_min = cop.h(current);
+
+        // Iterates over all neighbors
+        for (Configuration n : neighbors) {
+            int h_n = cop.h(n);
+            // Case 1: h is lower than h_min
+            // ==> Overwrite h_min, clear indices and add h_min's index to the list
+            if (h_n < h_min) {
+                h_min = h_n;
+                indices.clear();
+                indices.add(neighbors.indexOf(n));
+            }
+            // Case 2: h is equal to h_min
+            // ==> Add h's index to list
+            else if (h_n == h_min) {
+                indices.add(neighbors.indexOf(n));
+            }
+            // Case 3: h is higher than h_min
+            // ==> Ignore and continue with loop
+        }
+        // Find neighbor with lowest h
+        if (indices.size() == 1) {
+            Configuration next = neighbors.get(indices.get(0));
+        }
+        else {
+            // There are multiple neighbors with the same h value
+            // ==> Choose one at random
+            Random rand = new Random();
+            int randomIndex = rand.nextInt(indices.size() - 1);
+            Configuration next = neighbors.get(randomIndex);
+        }
+        return null;
     }
     
     public static void main(String args[]) {
