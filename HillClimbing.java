@@ -37,7 +37,7 @@ public class HillClimbing {
         // in the fact that we are dealing with a minimization problem
         // rather than a maximization problem.
         Configuration current = cop.getInitialCandidate();
-        int steps = 0;
+        int steps = 1;
 
         while (true) {
             ArrayList<Configuration> neighbors = cop.getNeighbors(current);
