@@ -34,7 +34,18 @@ public class HillClimbing {
         // implementation differs from the one presented in the lecture
         // in the fact that we are dealing with a minimization problem
         // rather than a maximiztion problemm.
-        
+        Configuration rootConf = cop.getInitialCandidate();
+        ArrayList<Configuration> neighbors = cop.getNeighbors(rootConf);
+
+        int temp_low = cop.h(rootConf);
+
+        for (Configuration a:
+             neighbors) {
+            int zwisch_low = cop.h(a);
+            if (zwisch_low < temp_low) {
+                temp_low = zwisch_low;
+            }
+        }
     }
     
     public static void main(String args[]) {
