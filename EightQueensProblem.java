@@ -66,7 +66,7 @@ public class EightQueensProblem implements CombinatorialOptimizationProblem {
                         queenconf.pos[i] == (queenconf.pos[i] - j)) {
                     threatcounter++;
                 }
-                if (queenconf.pos[i] == queenconf[j]) {
+                if (queenconf.pos[i] == queenconf.pos[j]) {
                     threatcounter++;
                 }
             }
