@@ -37,49 +37,59 @@ public class HillClimbing {
         // in the fact that we are dealing with a minimization problem
         // rather than a maximization problem.
         Configuration current = cop.getInitialCandidate();
-        ArrayList<Configuration> neighbors = cop.getNeighbors(current);
+        int steps = 0;
 
-        // indices saves the indices of the configs with the lowest h values
-        ArrayList<Integer> indices = new ArrayList<>();
-        int h_current = cop.h(current);
-        int h_min = h_current;
+        while (true) {
+            ArrayList<Configuration> neighbors = cop.getNeighbors(current);
 
-        // Iterates over all neighbors
-        for (Configuration n : neighbors) {
-            int h_n = cop.h(n);
-            // Case 1: h is lower than h_min
-            // ==> Overwrite h_min, clear indices and add h_min's index to the list
-            if (h_n < h_min) {
-                h_min = h_n;
-                indices.clear();
-                indices.add(neighbors.indexOf(n));
+            // "indices" saves the indices of the configs with the lowest h values
+            ArrayList<Integer> indices = new ArrayList<>();
+            int h_current = cop.h(current);
+            int h_min = 100;
+
+            // Iterates over all neighbors
+            for (Configuration n : neighbors) {
+                int h_n = cop.h(n);
+                // Case 1: h is lower than h_min
+                // ==> Overwrite h_min, clear indices and add h_min's index to the list
+                if (h_n < h_min) {
+                    h_min = h_n;
+                    indices.clear();
+                    indices.add(neighbors.indexOf(n));
+                }
+                // Case 2: h is equal to h_min
+                // ==> Add h's index to list
+                else if (h_n == h_min) {
+                    indices.add(neighbors.indexOf(n));
+                }
+                // Case 3: h is higher than h_min
+                // ==> Ignore and continue with loop
             }
-            // Case 2: h is equal to h_min
-            // ==> Add h's index to list
-            else if (h_n == h_min) {
-                indices.add(neighbors.indexOf(n));
+            Configuration next;
+            // Select neighbor with lowest h as next configuration
+            if (indices.size() == 1) {
+                next = neighbors.get(indices.get(0));
             }
-            // Case 3: h is higher than h_min
-            // ==> Ignore and continue with loop
-        }
-        // Find neighbor with lowest h
-        if (indices.size() == 1) {
-            Configuration next = neighbors.get(indices.get(0));
-        }
-        else {
-            // There are multiple neighbors with the same h value
-            // ==> Choose one at random
-            Random rand = new Random();
-            int randomIndex = rand.nextInt(indices.size() - 1);
-            Configuration next = neighbors.get(randomIndex);
+            else {
+                // If there are multiple neighbors with the same h value
+                // ==> Choose one at random
+                Random rand = new Random();
+                int randomIndex = rand.nextInt(indices.size() - 1);
+                next = neighbors.get(indices.get(randomIndex));
+            }
+
+            // Return if none of the neighbors' h values is lower than the previous h
+            if (h_min >= h_current) {
+                boolean success = false;
+                if (h_min == 0) {
+                    success = true;
+                }
+                return new SearchResult(success, steps);
+            }
+            current = next;
+            steps++;
         }
 
-        if (h_min >= h_current) {
-            // TODO: Return current
-        }
-        current = next;
-
-        return null;
     }
     
     public static void main(String args[]) {
